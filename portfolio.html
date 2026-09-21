@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Portfolio — Frames of Forever | Indian Wedding Photography Gallery</title>
+<meta name="description" content="Browse our full gallery of premium Indian wedding photography — brides, grooms, mehendi, haldi, sangeet, mandap decor and candid moments.">
+<style>
+  :root{
+    --ink:#0f1410; --champagne:#f8f4ec; --gold:#c9a769; --gold-soft:#e4cd9a;
+    --espresso:#3d2b1f; --line:rgba(15,20,16,0.12); --line-dark:rgba(248,244,236,0.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--champagne);color:var(--espresso);font-family:'Iowan Old Style','Palatino Linotype',Georgia,serif;
+    padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  header{position:sticky;top:0;z-index:80;background:rgba(255,255,255,0.55);
+    backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);
+    padding:22px 5vw;padding-top:calc(22px + env(safe-area-inset-top,0px));
+    display:flex;align-items:center;justify-content:space-between;
+    border-bottom:1px solid rgba(255,255,255,0.4);box-shadow:0 8px 32px -12px rgba(15,20,16,0.08);}
+  .logo{font-size:24px;letter-spacing:0.1em;color:var(--ink);}
+  .logo span{color:var(--gold);}
+  nav{display:flex;align-items:center;gap:38px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:13px;color:#5b4a3a;}
+  nav a{position:relative;padding-bottom:6px;}
+  nav a::after{content:'';position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--gold);transition:right .35s cubic-bezier(.16,1,.3,1);}
+  nav a.active::after{right:0;}
+  nav a.active{color:var(--ink);}
+  .nav-book{background:var(--ink);color:var(--champagne)!important;padding:11px 22px;border-radius:999px;letter-spacing:0.1em;}
+  .nav-book::after{display:none;}
+  .nav-book:hover{background:var(--gold);color:var(--ink)!important;}
+  .menu-btn{display:none;background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink);min-width:44px;min-height:44px;}
+
+  .mnav-overlay{position:fixed;inset:0;background:rgba(15,20,16,0.45);z-index:90;opacity:0;pointer-events:none;transition:opacity .4s ease;}
+  .mnav-overlay.open{opacity:1;pointer-events:auto;}
+  .mnav{position:fixed;top:0;right:0;height:100%;width:82%;max-width:360px;z-index:95;
+    background:var(--ink);color:var(--champagne);padding:calc(30px + env(safe-area-inset-top,0px)) 32px 30px;
+    display:flex;flex-direction:column;transform:translateX(100%);transition:transform .5s cubic-bezier(.16,1,.3,1);
+    box-shadow:-30px 0 80px -20px rgba(0,0,0,0.4);}
+  .mnav.open{transform:translateX(0);}
+  .mnav-close{align-self:flex-end;background:none;border:none;color:var(--champagne);font-size:26px;cursor:pointer;min-width:44px;min-height:44px;}
+  .mnav-links{display:flex;flex-direction:column;gap:6px;margin-top:20px;font-size:26px;font-style:italic;}
+  .mnav-links a{padding:14px 0;border-bottom:1px solid var(--line-dark);color:var(--champagne);}
+  .mnav-links a.active{color:var(--gold-soft);}
+  .mnav-cta{margin-top:auto;display:flex;flex-direction:column;gap:14px;}
+  .mnav-cta a{font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;letter-spacing:0.14em;text-align:center;padding:16px;border-radius:2px;}
+  .mnav-book{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:var(--ink);}
+  .mnav-call{border:1px solid var(--line-dark);color:var(--champagne);}
+  .mnav-social{display:flex;gap:20px;margin-top:22px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:0.14em;color:#9a8c78;}
+
+  .hero-video{position:relative;height:82vh;overflow:hidden;background:#000;}
+  .hero-video img{width:100%;height:100%;object-fit:cover;opacity:0.92;}
+  .hero-video::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(15,20,16,0.1), rgba(15,20,16,0.5));}
+  .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;
+    width:80px;height:80px;border-radius:50%;background:rgba(248,244,236,0.94);
+    display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--ink);
+    cursor:pointer;transition:transform .4s cubic-bezier(.16,1,.3,1),background .3s ease;
+    box-shadow:0 20px 50px -18px rgba(0,0,0,0.6);}
+  .play-btn:hover{transform:translate(-50%,-50%) scale(1.08);background:var(--gold-soft);}
+  .caption{position:absolute;bottom:38px;left:5vw;z-index:1;color:var(--gold-soft);font-family:'Helvetica Neue',Arial;font-size:12px;letter-spacing:0.2em;}
+
+  .gallery-head{padding:80px 5vw 20px;text-align:center;}
+  .gallery-head p.eyebrow{font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:0.26em;color:#8a7a68;margin-bottom:14px;}
+  .gallery-head h1{font-size:clamp(30px,4vw,48px);font-style:italic;color:var(--ink);margin-bottom:10px;}
+  .gallery-head p.sub{font-family:'Helvetica Neue',Arial,sans-serif;color:#8a7a68;font-size:14px;}
+
+  .filters{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding:34px 5vw 10px;position:sticky;top:81px;z-index:40;
+    background:var(--champagne);}
+  .filter-btn{font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;letter-spacing:0.08em;
+    padding:10px 20px;border:1px solid rgba(61,43,31,0.2);border-radius:999px;background:transparent;cursor:pointer;
+    color:#5b4a3a;transition:all .3s ease;}
+  .filter-btn:hover{border-color:var(--gold);color:var(--ink);}
+  .filter-btn.active{background:var(--ink);color:var(--champagne);border-color:var(--ink);}
+
+  /* Collage / masonry gallery */
+  .grid{column-count:4;column-gap:10px;padding:24px 5vw 60px;background:var(--champagne);}
+  .grid figure{position:relative;overflow:hidden;border-radius:3px;cursor:zoom-in;margin:0 0 10px;break-inside:avoid;
+    background:#e8e0d0;box-shadow:0 1px 3px rgba(15,20,16,0.06);}
+  .grid figure.hidden{display:none;}
+  .grid figure.tall img{aspect-ratio:3/4.6;}
+  .grid figure.wide img{aspect-ratio:4/3;}
+  .grid figure.sq img{aspect-ratio:1/1;}
+  .grid figure img{aspect-ratio:3/4;}
+  .grid img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .4s ease;
+    opacity:0;background:#e8e0d0;}
+  .grid img.loaded{opacity:1;}
+  .grid figure:hover img{transform:scale(1.06);}
+  @media (max-width:1080px){ .grid{column-count:3;} }
+  @media (max-width:640px){ .grid{column-count:2;column-gap:7px;} .grid figure{margin-bottom:7px;} }
+
+  .load-more-wrap{display:flex;justify-content:center;padding:0 5vw 100px;}
+  .load-more{font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;letter-spacing:0.14em;
+    background:var(--ink);color:var(--champagne);padding:16px 40px;border-radius:999px;border:none;cursor:pointer;
+    transition:background .3s ease, transform .3s ease;}
+  .load-more:hover{background:var(--gold);color:var(--ink);transform:translateY(-2px);}
+  .load-more[hidden]{display:none;}
+
+  /* Lightbox */
+  .lightbox{position:fixed;inset:0;background:rgba(10,13,10,0.96);z-index:120;display:none;
+    align-items:center;justify-content:center;padding:5vw;}
+  .lightbox.open{display:flex;}
+  .lightbox img{max-width:92vw;max-height:82vh;object-fit:contain;box-shadow:0 40px 100px -30px rgba(0,0,0,0.7);border-radius:2px;}
+  .lightbox-close,.lightbox-prev,.lightbox-next{position:absolute;background:rgba(248,244,236,0.12);
+    border:1px solid rgba(248,244,236,0.25);color:#f8f4ec;border-radius:50%;
+    width:48px;height:48px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;
+    transition:background .3s ease;}
+  .lightbox-close:hover,.lightbox-prev:hover,.lightbox-next:hover{background:rgba(248,244,236,0.25);}
+  .lightbox-close{top:24px;right:24px;}
+  .lightbox-prev{left:24px;top:50%;transform:translateY(-50%);}
+  .lightbox-next{right:24px;top:50%;transform:translateY(-50%);}
+  .lightbox-count{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+    color:#c8bda8;font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;letter-spacing:0.1em;}
+
+  footer{background:var(--ink);color:var(--champagne);padding:80px 5vw 34px;}
+  .foot-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:40px;padding-bottom:56px;border-bottom:1px solid var(--line-dark);}
+  .foot-brand{font-size:24px;}
+  .foot-brand span{color:var(--gold);}
+  .foot-cols{display:flex;gap:90px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:14px;}
+  .foot-cols h4{font-size:11px;letter-spacing:0.16em;margin-bottom:18px;color:var(--gold-soft);}
+  .foot-cols a{display:block;margin-bottom:11px;color:#d9cfc0;}
+  .foot-bottom{padding-top:28px;text-align:center;font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#6f6455;}
+
+  .wa-float{position:fixed;right:18px;bottom:18px;z-index:75;width:56px;height:56px;border-radius:50%;
+    background:#25D366;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 12px 30px -8px rgba(0,0,0,0.45);transition:transform .3s cubic-bezier(.16,1,.3,1);
+    bottom:calc(18px + env(safe-area-inset-bottom,0px));}
+  .wa-float:hover{transform:scale(1.08);}
+  .wa-float svg{width:28px;height:28px;}
+  @media (max-width:640px){ .wa-float{width:50px;height:50px;right:14px;} .wa-float svg{width:25px;height:25px;} }
+
+  @media (max-width:860px){
+    nav{display:none;} .menu-btn{display:block;}
+    header{padding:16px 5vw;padding-top:calc(16px + env(safe-area-inset-top,0px));}
+    .logo{font-size:20px;}
+    .hero-video{height:56vh;}
+    .play-btn{width:60px;height:60px;font-size:17px;}
+    .caption{font-size:11px;bottom:24px;}
+    .filters{top:69px;padding:22px 5vw 8px;gap:8px;}
+    .filter-btn{padding:8px 16px;font-size:11px;}
+    .grid{grid-template-columns:repeat(2,1fr);gap:5px;padding:16px 5vw 40px;}
+    .lightbox-prev,.lightbox-next{width:40px;height:40px;font-size:15px;}
+    .lightbox-close{width:40px;height:40px;top:16px;right:16px;}
+    footer{padding:56px 6vw 100px;}
+    .foot-top{flex-direction:column;gap:32px;padding-bottom:36px;}
+    .foot-cols{gap:44px;}
+  }
+  @media (max-width:420px){
+    .foot-cols{flex-direction:column;gap:28px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">FRAMES<span>.</span></a>
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="about.html">About</a>
+    <a class="active" href="portfolio.html">Portfolio</a>
+    <a href="stories.html">Stories</a>
+    <a href="contact.html">Contact</a>
+    <a class="nav-book" href="contact.html">Book Now</a>
+  </nav>
+  <button class="menu-btn" aria-label="Open menu">☰</button>
+</header>
+
+<div class="mnav-overlay" id="mnavOverlay"></div>
+<div class="mnav" id="mnav">
+  <button class="mnav-close" aria-label="Close menu" id="mnavClose">✕</button>
+  <div class="mnav-links">
+    <a href="home.html">Home</a>
+    <a href="about.html">About</a>
+    <a class="active" href="portfolio.html">Portfolio</a>
+    <a href="stories.html">Stories</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="mnav-cta">
+    <a class="mnav-book" href="contact.html">Book a Consultation</a>
+    <a class="mnav-call" href="tel:+919876543210">Call +91 98765 43210</a>
+    <div class="mnav-social"><span>INSTAGRAM</span><span>PINTEREST</span><span>WHATSAPP</span></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var btn=document.querySelector('.menu-btn'), mnav=document.getElementById('mnav'),
+      overlay=document.getElementById('mnavOverlay'), close=document.getElementById('mnavClose');
+  function open(){mnav.classList.add('open');overlay.classList.add('open');document.body.style.overflow='hidden';}
+  function shut(){mnav.classList.remove('open');overlay.classList.remove('open');document.body.style.overflow='';}
+  btn.addEventListener('click',open);
+  close.addEventListener('click',shut);
+  overlay.addEventListener('click',shut);
+})();
+</script>
+
+<section class="hero-video">
+  <img src="https://images.unsplash.com/photo-1776005293966-70ce5bc1e407?w=1800&q=85&auto=format&fit=crop" alt="Couple portrait film still">
+  <div class="play-btn">▶</div>
+  <div class="caption">FEATURED FILM — MAYA &amp; ARJUN</div>
+</section>
+
+<div class="gallery-head">
+  <p class="eyebrow">THE FULL COLLECTION</p>
+  <h1>Portfolio</h1>
+  <p class="sub">40+ premium frames across brides, grooms, rituals, decor and candid moments.</p>
+</div>
+
+<div class="filters">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="bride">Bride</button>
+  <button class="filter-btn" data-filter="groom">Groom</button>
+  <button class="filter-btn" data-filter="couple">Couple</button>
+  <button class="filter-btn" data-filter="mehendi">Mehendi</button>
+  <button class="filter-btn" data-filter="haldi">Haldi</button>
+  <button class="filter-btn" data-filter="sangeet">Sangeet</button>
+  <button class="filter-btn" data-filter="mandap">Mandap</button>
+  <button class="filter-btn" data-filter="decor">Decor</button>
+  <button class="filter-btn" data-filter="details">Details</button>
+  <button class="filter-btn" data-filter="candid">Candid</button>
+</div>
+
+<div class="grid" id="grid">
+  <figure class="g-item tall" data-cat="bride"><img loading="lazy" src="https://images.unsplash.com/photo-1764287336801-5ba6b81dceae?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — bride in a pink sari with fine jewellery"></figure>
+  <figure class="g-item sq" data-cat="groom"><img loading="lazy" src="https://images.unsplash.com/photo-1765881395337-a69cf213bd84?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — groom carrying his bride"></figure>
+  <figure class="g-item wide" data-cat="couple"><img loading="lazy" src="https://images.unsplash.com/photo-1776005293966-70ce5bc1e407?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — bride and groom embracing"></figure>
+  <figure class="g-item sq" data-cat="mehendi"><img loading="lazy" src="https://images.unsplash.com/photo-1775404507931-25aff1e6d4e1?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — mehendi hands"></figure>
+  <figure class="g-item tall" data-cat="haldi"><img loading="lazy" src="https://images.unsplash.com/photo-1765881274684-b3c89dd44882?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — haldi ceremony"></figure>
+  <figure class="g-item wide" data-cat="sangeet"><img loading="lazy" src="https://images.unsplash.com/photo-1783083332249-23694a484cc8?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — sangeet night"></figure>
+  <figure class="g-item tall" data-cat="mandap"><img loading="lazy" src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — mandap decor"></figure>
+  <figure class="g-item sq" data-cat="details"><img loading="lazy" src="https://images.unsplash.com/photo-1783083332267-dbb52f933282?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — bridal detail"></figure>
+  <figure class="g-item sq" data-cat="details"><img loading="lazy" src="https://images.unsplash.com/photo-1776005417814-4a68ae8ef3cc?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — jewellery detail"></figure>
+  <figure class="g-item wide" data-cat="details"><img loading="lazy" src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — floral detail"></figure>
+  <figure class="g-item tall" data-cat="bride"><img loading="lazy" src="https://images.unsplash.com/photo-1765881312316-a9dc81ba1065?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — bride with her friends"></figure>
+  <figure class="g-item sq" data-cat="bride"><img loading="lazy" src="https://images.unsplash.com/photo-1776005395798-9fc7c1c50e95?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — bride portrait"></figure>
+  <figure class="g-item wide" data-cat="decor"><img loading="lazy" src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — venue decor"></figure>
+  <figure class="g-item sq" data-cat="candid"><img loading="lazy" src="https://images.unsplash.com/photo-1778929381859-c9d141cc535d?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — candid moment"></figure>
+  <figure class="g-item tall" data-cat="haldi"><img loading="lazy" src="https://images.unsplash.com/photo-1765881274684-b3c89dd44882?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — haldi morning"></figure>
+  <figure class="g-item sq" data-cat="details"><img loading="lazy" src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — table decor"></figure>
+  <figure class="g-item tall" data-cat="bride"><img loading="lazy" src="https://images.unsplash.com/photo-1765881232315-65610dc5b506?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — bride in saree"></figure>
+  <figure class="g-item wide" data-cat="decor"><img loading="lazy" src="https://images.unsplash.com/photo-1767886097272-e441152edcdb?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — reception decor"></figure>
+  <figure class="g-item sq" data-cat="bride"><img loading="lazy" src="https://images.unsplash.com/photo-1772887438776-28a6f8b2e29d?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — bride by the sea"></figure>
+  <figure class="g-item tall" data-cat="couple"><img loading="lazy" src="https://images.unsplash.com/photo-1775404550111-30d7598d2322?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — couple portrait"></figure>
+  <figure class="g-item sq" data-cat="bride"><img loading="lazy" src="https://images.unsplash.com/photo-1765881414116-6908f555213e?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — newlyweds"></figure>
+  <figure class="g-item wide" data-cat="groom"><img loading="lazy" src="https://images.unsplash.com/photo-1776005293966-70ce5bc1e407?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — groom portrait"></figure>
+  <figure class="g-item sq" data-cat="couple"><img loading="lazy" src="https://images.unsplash.com/photo-1783083350575-7650966a50c5?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — couple candid"></figure>
+  <figure class="g-item tall" data-cat="mehendi"><img loading="lazy" src="https://images.unsplash.com/photo-1783083350532-3695bc523563?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — mehendi moment"></figure>
+  <figure class="g-item sq" data-cat="sangeet"><img loading="lazy" src="https://images.unsplash.com/photo-1781512471864-357022c87200?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — sangeet celebration"></figure>
+  <figure class="g-item wide" data-cat="mandap"><img loading="lazy" src="https://images.unsplash.com/photo-1767886097272-e441152edcdb?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — ceremony setting"></figure>
+  <figure class="g-item sq" data-cat="candid"><img loading="lazy" src="https://images.unsplash.com/photo-1768561715378-2de6d0fe4fb3?w=1200&q=90&auto=format&fit=crop" alt="Indian wedding photography — candid celebration"></figure>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lbClose">✕</button>
+  <button class="lightbox-prev" id="lbPrev">‹</button>
+  <img id="lbImg" src="" alt="">
+  <button class="lightbox-next" id="lbNext">›</button>
+  <div class="lightbox-count" id="lbCount"></div>
+</div>
+
+<footer>
+  <div class="foot-top">
+    <div class="foot-brand">Frames of Forever<span>.</span></div>
+    <div class="foot-cols">
+      <div>
+        <h4>RESOURCES</h4>
+        <a href="home.html">Home</a>
+        <a href="about.html">About us</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="stories.html">Stories</a>
+      </div>
+      <div>
+        <h4>STUDIO</h4>
+        <a href="contact.html">Contact Us</a>
+        <a href="contact.html">Book Now</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">Copyright © 2026 Frames of Forever.</div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/919876543210" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M16.01 3C9.38 3 4 8.38 4 15.01c0 2.25.62 4.44 1.8 6.35L4 29l7.82-1.75a12.9 12.9 0 0 0 4.19.7h.01c6.63 0 12.01-5.38 12.01-12.01C28.03 8.38 22.65 3 16.01 3Zm0 21.9h-.01a9.9 9.9 0 0 1-5.05-1.38l-.36-.21-4.64 1.04 1.06-4.53-.24-.37a9.86 9.86 0 0 1-1.52-5.34C5.25 9.42 10.03 5 16.01 5c2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.9 6.99c0 5.6-4.78 9.99-9.89 9.99Zm5.52-7.42c-.3-.15-1.79-.88-2.07-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.96 1.18-.18.2-.35.22-.65.08-.3-.15-1.28-.47-2.44-1.51-.9-.8-1.51-1.79-1.69-2.09-.18-.3-.02-.46.13-.61.14-.14.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.64-.93-2.24-.24-.59-.49-.5-.68-.51-.18-.01-.38-.01-.58-.01-.2 0-.53.08-.8.38-.28.3-1.05 1.02-1.05 2.5s1.07 2.9 1.22 3.1c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.79-.73 2.04-1.44.25-.71.25-1.31.18-1.44-.08-.13-.28-.2-.58-.35Z"/></svg>
+</a>
+
+<script>
+(function(){
+  var buttons = document.querySelectorAll('.filter-btn');
+  var items = document.querySelectorAll('.g-item');
+
+  // Fade images in once loaded; if a source ever fails, remove that tile cleanly instead of showing a broken icon.
+  items.forEach(function(it){
+    var img = it.querySelector('img');
+    if(!img) return;
+    if(img.complete && img.naturalWidth){ img.classList.add('loaded'); }
+    img.addEventListener('load', function(){ img.classList.add('loaded'); });
+    img.addEventListener('error', function(){ it.remove(); });
+  });
+  buttons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      buttons.forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      var f = btn.dataset.filter;
+      items.forEach(function(it){
+        if(f==='all' || it.dataset.cat===f){ it.classList.remove('hidden'); }
+        else { it.classList.add('hidden'); }
+      });
+    });
+  });
+
+  // Lightbox
+  var visibleItems = function(){ return Array.prototype.filter.call(items, function(it){return !it.classList.contains('hidden');}); };
+  var lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg'),
+      lbCount = document.getElementById('lbCount'), current = 0;
+  function showAt(idx){
+    var vis = visibleItems();
+    if(vis.length===0) return;
+    current = (idx + vis.length) % vis.length;
+    var img = vis[current].querySelector('img');
+    lbImg.src = img.src; lbImg.alt = img.alt;
+    lbCount.textContent = (current+1) + ' / ' + vis.length;
+  }
+  items.forEach(function(it){
+    it.addEventListener('click', function(){
+      var vis = visibleItems();
+      var idx = vis.indexOf(it);
+      lb.classList.add('open');
+      document.body.style.overflow='hidden';
+      showAt(idx);
+    });
+  });
+  document.getElementById('lbClose').addEventListener('click', function(){ lb.classList.remove('open'); document.body.style.overflow=''; });
+  document.getElementById('lbPrev').addEventListener('click', function(){ showAt(current-1); });
+  document.getElementById('lbNext').addEventListener('click', function(){ showAt(current+1); });
+  lb.addEventListener('click', function(e){ if(e.target===lb){ lb.classList.remove('open'); document.body.style.overflow=''; } });
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('open')) return;
+    if(e.key==='Escape'){ lb.classList.remove('open'); document.body.style.overflow=''; }
+    if(e.key==='ArrowLeft'){ showAt(current-1); }
+    if(e.key==='ArrowRight'){ showAt(current+1); }
+  });
+})();
+</script>
+
+</body>
+</html>
