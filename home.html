@@ -203,6 +203,45 @@
   @media (prefers-reduced-motion:reduce){
     .hero img,.couple-card img,.ritual-card img,nav a::after{animation:none!important;transition:none!important;}
   }
+
+  /* ===== fully glassy nav ===== */
+  header{
+    position:fixed;top:0;left:0;right:0;
+    background:rgba(255,255,255,0.14);
+    backdrop-filter:blur(26px) saturate(190%);
+    -webkit-backdrop-filter:blur(26px) saturate(190%);
+    border-bottom:1px solid rgba(255,255,255,0.35);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.45), 0 10px 40px -14px rgba(15,20,16,0.25);
+  }
+  body{padding-top:0;}
+
+  /* ===== centered text ===== */
+  .hero-caption{left:0;right:0;text-align:center;}
+  .hero-title{margin:0 auto;text-align:center;}
+  .intro{text-align:center;}
+  .intro p{margin-inline:auto;}
+  .ritual-label{text-align:center;}
+  .moments-head{flex-direction:column;align-items:center;text-align:center;justify-content:center;}
+  .couple-card{text-align:center;}
+  .couple-card p{margin-inline:auto;}
+
+  /* ===== rituals: light instead of black ===== */
+  .rituals{background:#e9dfcf;color:var(--espresso);}
+  .rituals-head p.eyebrow{color:#a8834a;}
+  .rituals-head h2{color:var(--ink);}
+  .rituals-head .sub{color:#6f5f4d;}
+  .ritual-card::after{background:linear-gradient(180deg,rgba(61,43,31,0) 45%,rgba(61,43,31,0.78) 100%);}
+  .ritual-label{color:#fff;}
+
+  /* ===== water-clear glass nav ===== */
+  header{
+    background:linear-gradient(180deg,rgba(255,255,255,0.12) 0%,rgba(255,255,255,0.02) 100%);
+    backdrop-filter:blur(14px) saturate(200%) brightness(1.06);
+    -webkit-backdrop-filter:blur(14px) saturate(200%) brightness(1.06);
+    border-bottom:1px solid rgba(255,255,255,0.28);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(255,255,255,0.12), 0 8px 32px -16px rgba(15,20,16,0.22);
+  }
+  .logo,.menu-btn{text-shadow:0 1px 10px rgba(255,255,255,0.45);}
 </style>
 </head>
 <body>
